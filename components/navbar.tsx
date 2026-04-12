@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { navLinks } from '@/lib/data';
 import { useLang } from '@/lib/lang-context';
@@ -66,9 +67,13 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 border-b border-white/10 bg-slate-950/75 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
         <Link href="#home" className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-sm font-semibold text-white shadow-[0_0_40px_rgba(59,130,246,0.18)]">
-            2Y
-          </div>
+          <Image
+            src="/logo.png"
+            alt="2youdev logo"
+            width={40}
+            height={40}
+            className="h-10 w-10 rounded-2xl object-contain"
+          />
           <div>
             <p className="text-base font-semibold tracking-wide text-white">2youdev</p>
             <p className="text-xs text-slate-400">

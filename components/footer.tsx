@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { navLinks, footerContent } from '@/lib/data';
 import { useLang } from '@/lib/lang-context';
 
@@ -14,9 +15,13 @@ export default function Footer() {
       <div className="mx-auto flex max-w-7xl flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-sm font-semibold text-white">
-              2Y
-            </div>
+            <Image
+              src="/logo.png"
+              alt="2youdev logo"
+              width={40}
+              height={40}
+              className="h-10 w-10 rounded-2xl object-contain"
+            />
             <div>
               <p className="font-semibold text-white">2youdev</p>
               <p className="text-sm text-slate-400">{c.tagline}</p>
