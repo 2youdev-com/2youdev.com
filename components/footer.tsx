@@ -20,7 +20,7 @@ export default function Footer() {
               alt="2youdev logo"
               width={40}
               height={40}
-              className="h-10 w-10 rounded-2xl object-contain"
+              className="h-10 w-10 rounded-full object-cover"
             />
             <div>
               <p className="font-semibold text-white">2youdev</p>
