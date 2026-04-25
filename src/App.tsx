@@ -23,6 +23,8 @@ import ContactSection from './sections/ContactSection';
 import ServicesPage from './pages/ServicesPage';
 import CaseStudiesPage from './pages/CaseStudiesPage';
 import BlogPage from './pages/BlogPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import TermsPage from './pages/TermsPage';
 
 function HomePage() {
   return (
@@ -55,6 +57,8 @@ function App() {
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/case-studies" element={<CaseStudiesPage />} />
         <Route path="/blog" element={<BlogPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/terms-of-service" element={<TermsPage />} />
       </Routes>
       <Footer />
     </div>

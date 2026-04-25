@@ -1,5 +1,6 @@
-import { FiLinkedin, FiFacebook, FiInstagram , } from 'react-icons/fi';
+import { FiLinkedin, FiFacebook, FiInstagram } from 'react-icons/fi';
 import { FaTiktok, FaWhatsapp } from 'react-icons/fa';
+import { useNavigate } from 'react-router';
 
 const footerColumns = [
   {
@@ -48,8 +49,8 @@ const footerColumns = [
     title: 'Resources',
     links: [
       { label: 'Blog', href: '/blog' },
-      { label: 'Privacy Policy', href: '#' },
-      { label: 'Terms of Service', href: '#' },
+      { label: 'Privacy Policy', href: '/privacy-policy' },
+      { label: 'Terms of Service', href: '/terms-of-service' },
     ],
   },
 ];
@@ -81,19 +82,25 @@ const socialLinks = [
     Icon: FaWhatsapp,
   },
 ];
+
 export default function Footer() {
- const scrollToSection = (href: string) => {
-  if (!href.startsWith('#')) {
-    window.location.href = href;
-    return;
-  }
+  const navigate = useNavigate();
 
-  const el = document.querySelector(href);
+  const scrollToSection = (href: string) => {
+    // Client-side routing for page links (no full reload)
+    if (href.startsWith('/')) {
+      navigate(href);
+      return;
+    }
 
-  if (el) {
-    el.scrollIntoView({ behavior: 'smooth' });
-  }
-};
+    // Smooth scroll for anchor links
+    if (href.startsWith('#')) {
+      const el = document.querySelector(href);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
 
   return (
     <footer className="w-full bg-[#050918] pt-16 pb-8">
@@ -139,7 +146,7 @@ export default function Footer() {
                     <button
                       type="button"
                       onClick={() => scrollToSection(link.href)}
-                      className="text-sm text-slate-400 hover:text-white transition-colors duration-200 text-left"
+                      className="text-sm text-slate-400 hover:text-white transition-colors duration-200 text-left cursor-pointer"
                     >
                       {link.label}
                     </button>
@@ -170,7 +177,7 @@ export default function Footer() {
                   href="tel:+201069424220"
                   className="text-sm text-slate-400 hover:text-white transition-colors duration-200"
                 >
-                    +201069424220
+                  +201069424220
                 </a>
               </li>
             </ul>
