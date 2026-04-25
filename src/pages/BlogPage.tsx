@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { motion } from 'framer-motion';
 import { FiArrowRight, FiArrowLeft, FiClock } from 'react-icons/fi';
 import { articles, topics } from '../data/articles';
