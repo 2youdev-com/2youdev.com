@@ -89,7 +89,7 @@ export default function CTASection() {
   };
 
   return (
-    <section id="contact" className="w-full bg-navy-900 py-24 relative overflow-hidden">
+    <section id="cta" className="w-full bg-navy-900 py-24 relative overflow-hidden">
       {/* Particle Background */}
       <ParticleBackground />
 

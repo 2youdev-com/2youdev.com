@@ -1,5 +1,5 @@
-import { FiLinkedin, FiFacebook, FiInstagram } from 'react-icons/fi';
-import { FaTiktok } from 'react-icons/fa';
+import { FiLinkedin, FiFacebook, FiInstagram , } from 'react-icons/fi';
+import { FaTiktok, FaWhatsapp } from 'react-icons/fa';
 
 const footerColumns = [
   {
@@ -47,7 +47,7 @@ const footerColumns = [
   {
     title: 'Resources',
     links: [
-      { label: 'Blog', href: '#blog' },
+      { label: 'Blog', href: '/blog' },
       { label: 'Privacy Policy', href: '#' },
       { label: 'Terms of Service', href: '#' },
     ],
@@ -75,18 +75,25 @@ const socialLinks = [
     href: 'https://www.tiktok.com/@2you.dev?_r=1&_t=ZS-95o611pGdyS',
     Icon: FaTiktok,
   },
+  {
+    label: 'WhatsApp',
+    href: 'https://wa.me/201069424220',
+    Icon: FaWhatsapp,
+  },
 ];
-
 export default function Footer() {
-  const scrollToSection = (href: string) => {
-    if (href === '#') return;
+ const scrollToSection = (href: string) => {
+  if (!href.startsWith('#')) {
+    window.location.href = href;
+    return;
+  }
 
-    const el = document.querySelector(href);
+  const el = document.querySelector(href);
 
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' });
+  }
+};
 
   return (
     <footer className="w-full bg-[#050918] pt-16 pb-8">
@@ -160,10 +167,10 @@ export default function Footer() {
 
               <li>
                 <a
-                  href="tel:0000000"
+                  href="tel:+201069424220"
                   className="text-sm text-slate-400 hover:text-white transition-colors duration-200"
                 >
-                  00000000
+                    +201069424220
                 </a>
               </li>
             </ul>
