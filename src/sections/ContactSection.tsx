@@ -425,7 +425,7 @@ export default function ContactSection() {
                 </a>
 
                 <a
-                  href="https://wa.me/201000000000"
+                  href="https://wa.me/201069424220"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex items-center gap-4"
@@ -558,20 +558,19 @@ export default function ContactSection() {
                     />
                   </button>
 
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.25 }}
-                      >
-                        <div className="px-5 pb-5 text-sm leading-relaxed text-slate-400">
-                          {faq.a}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  <div
+                    className="grid transition-all duration-200 ease-out"
+                    style={{
+                      gridTemplateRows: isOpen ? '1fr' : '0fr',
+                      opacity: isOpen ? 1 : 0,
+                    }}
+                  >
+                    <div className="overflow-hidden">
+                      <div className="px-5 pb-5 text-sm leading-relaxed text-slate-400">
+                        {faq.a}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               );
             })}
