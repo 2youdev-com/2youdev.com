@@ -95,6 +95,9 @@ export default function ProblemsSection() {
               <img
                 src="/dashboard.png"
                 alt="Business Analytics Dashboard"
+                loading="lazy"
+                width={800}
+                height={450}
                 className="w-full h-auto object-cover"
               />
             </div>

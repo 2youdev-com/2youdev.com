@@ -62,12 +62,19 @@ function HeroGalaxyParticles({
       y: height * centerYRatio,
     });
 
+    const isMobile = () => width < 768;
+
     const buildScene = () => {
       armParticles.length = 0;
       dustParticles.length = 0;
 
-      const armParticleCount = Math.max(1200, Math.floor(width * 0.95));
-      const dustCount = Math.max(150, Math.floor(width * 0.12));
+      const mobile = isMobile();
+      const armParticleCount = mobile
+        ? Math.max(300, Math.floor(width * 0.6))
+        : Math.max(1200, Math.floor(width * 0.95));
+      const dustCount = mobile
+        ? Math.max(40, Math.floor(width * 0.06))
+        : Math.max(150, Math.floor(width * 0.12));
 
       for (let i = 0; i < armParticleCount; i++) {
         armParticles.push({
@@ -100,7 +107,8 @@ function HeroGalaxyParticles({
       width = parent?.clientWidth || window.innerWidth;
       height = parent?.clientHeight || window.innerHeight;
 
-      const dpr = window.devicePixelRatio || 1;
+      const rawDpr = window.devicePixelRatio || 1;
+      const dpr = isMobile() ? Math.min(rawDpr, 1.5) : rawDpr;
 
       canvas.width = width * dpr;
       canvas.height = height * dpr;
@@ -154,6 +162,8 @@ function HeroGalaxyParticles({
     };
 
     const drawBackgroundDust = () => {
+      const mobile = isMobile();
+
       for (const d of dustParticles) {
         d.x += d.driftX;
         d.y += d.driftY;
@@ -163,7 +173,8 @@ function HeroGalaxyParticles({
         if (d.y < -10) d.y = height + 10;
         if (d.y > height + 10) d.y = -10;
 
-        if (d.size > 1.15) {
+        // Skip per-particle glow gradients on mobile
+        if (!mobile && d.size > 1.15) {
           const glow = ctx.createRadialGradient(
             d.x,
             d.y,
@@ -201,16 +212,20 @@ function HeroGalaxyParticles({
       ctx.fillStyle = glow1;
       ctx.fillRect(0, 0, width, height);
 
-      const glow2 = ctx.createRadialGradient(cx, cy, 0, cx, cy, 145);
-      glow2.addColorStop(0, 'rgba(255,255,255,0.18)');
-      glow2.addColorStop(0.3, 'rgba(142,162,255,0.14)');
-      glow2.addColorStop(1, 'rgba(142,162,255,0)');
+      // Skip second glow layer on mobile for performance
+      if (!isMobile()) {
+        const glow2 = ctx.createRadialGradient(cx, cy, 0, cx, cy, 145);
+        glow2.addColorStop(0, 'rgba(255,255,255,0.18)');
+        glow2.addColorStop(0.3, 'rgba(142,162,255,0.14)');
+        glow2.addColorStop(1, 'rgba(142,162,255,0)');
 
-      ctx.fillStyle = glow2;
-      ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = glow2;
+        ctx.fillRect(0, 0, width, height);
+      }
     };
 
     const drawGalaxyArms = () => {
+      const mobile = isMobile();
       const armsMap: { x: number; y: number; t: number; alpha: number }[][] =
         Array.from({ length: armCount }, () => []);
 
@@ -236,7 +251,8 @@ function HeroGalaxyParticles({
           alpha: finalAlpha,
         });
 
-        if (p.size > 1.1) {
+        // Skip per-particle glow gradients on mobile
+        if (!mobile && p.size > 1.1) {
           const glow = ctx.createRadialGradient(
             pos.x,
             pos.y,
@@ -261,32 +277,35 @@ function HeroGalaxyParticles({
         ctx.fill();
       }
 
-      for (let arm = 0; arm < armCount; arm++) {
-        const points = armsMap[arm].sort((a, b) => a.t - b.t);
+      // Skip arm-connecting mini-particles on mobile
+      if (!mobile) {
+        for (let arm = 0; arm < armCount; arm++) {
+          const points = armsMap[arm].sort((a, b) => a.t - b.t);
 
-        for (let i = 0; i < points.length - 1; i += 2) {
-          const p1 = points[i];
-          const p2 = points[i + 1];
+          for (let i = 0; i < points.length - 1; i += 2) {
+            const p1 = points[i];
+            const p2 = points[i + 1];
 
-          if (!p2) continue;
+            if (!p2) continue;
 
-          const dx = p2.x - p1.x;
-          const dy = p2.y - p1.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+            const dx = p2.x - p1.x;
+            const dy = p2.y - p1.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
 
-          if (dist < 38) {
-            const miniCount = Math.max(2, Math.floor(dist / 6));
+            if (dist < 38) {
+              const miniCount = Math.max(2, Math.floor(dist / 6));
 
-            for (let k = 1; k < miniCount; k++) {
-              const ratio = k / miniCount;
-              const x = p1.x + dx * ratio;
-              const y = p1.y + dy * ratio;
-              const alpha = Math.min(p1.alpha, p2.alpha) * 0.32;
+              for (let k = 1; k < miniCount; k++) {
+                const ratio = k / miniCount;
+                const x = p1.x + dx * ratio;
+                const y = p1.y + dy * ratio;
+                const alpha = Math.min(p1.alpha, p2.alpha) * 0.32;
 
-              ctx.beginPath();
-              ctx.arc(x, y, 0.55, 0, Math.PI * 2);
-              ctx.fillStyle = `rgba(110,168,255,${alpha})`;
-              ctx.fill();
+                ctx.beginPath();
+                ctx.arc(x, y, 0.55, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(110,168,255,${alpha})`;
+                ctx.fill();
+              }
             }
           }
         }

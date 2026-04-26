@@ -54,6 +54,9 @@ export default function CaseStudiesSection() {
                 <img
                   src={cs.image}
                   alt={cs.title}
+                  loading="lazy"
+                  width={800}
+                  height={500}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>

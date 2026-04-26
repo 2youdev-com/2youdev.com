@@ -36,7 +36,7 @@ function ParticleBackground() {
     }
 
     const particles: Particle[] = [];
-    const count = 60;
+    const count = w < 768 ? 20 : 60;
 
     for (let i = 0; i < count; i++) {
       particles.push({
