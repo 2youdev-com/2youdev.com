@@ -206,14 +206,16 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Menu */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[rgba(6,11,26,0.98)] backdrop-blur-xl border-t border-purple-100"
-          >
+      <div
+        className={`md:hidden grid transition-all duration-200 ease-out bg-[rgba(6,11,26,0.98)] backdrop-blur-xl ${
+          mobileOpen ? 'border-t border-purple-100' : ''
+        }`}
+        style={{
+          gridTemplateRows: mobileOpen ? '1fr' : '0fr',
+          willChange: 'grid-template-rows',
+        }}
+      >
+        <div className="overflow-hidden">
             <div className="px-4 py-4 space-y-3">
               {navLinks.map((link) => {
                 const isActive =
@@ -233,8 +235,7 @@ export default function Navbar() {
                     <span>{link.label}</span>
 
                     {isActive && (
-                      <motion.span
-                        layoutId="mobile-navbar-active-dot"
+                      <span
                         className="absolute right-4 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-purple shadow-[0_0_12px_rgba(45,91,255,0.9)]"
                       />
                     )}
@@ -250,9 +251,8 @@ export default function Navbar() {
                 Book a Call
               </button>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        </div>
+      </div>
     </motion.nav>
   );
 }
